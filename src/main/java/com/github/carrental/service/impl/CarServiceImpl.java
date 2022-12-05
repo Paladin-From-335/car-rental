@@ -5,10 +5,11 @@ import com.github.carrental.model.entity.Car;
 import com.github.carrental.repo.CarRepo;
 import com.github.carrental.service.CarService;
 import com.github.carrental.util.Mapper;
-import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -40,12 +41,12 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarDto> getAvailable() {
-        return null;
+        return mapper.entityToDtoList(carRepo.getAllAvailable());
     }
 
     @Override
     public Map<String, CarDto> getAllRented() {
-        return null;
+        return mapper.entityToDtoMap(carRepo.getAllRented());
     }
 
 }

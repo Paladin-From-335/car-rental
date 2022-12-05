@@ -1,15 +1,16 @@
 package com.github.carrental.util;
 
 import com.github.carrental.model.dto.CarDto;
-import com.github.carrental.model.dto.RentDto;
 import com.github.carrental.model.dto.UserDto;
 import com.github.carrental.model.entity.Car;
-import com.github.carrental.model.entity.Rent;
 import com.github.carrental.model.entity.User;
 import org.modelmapper.ModelMapper;
-import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class Mapper {
@@ -36,5 +37,11 @@ public class Mapper {
         return cars.stream()
                 .map(this::entityToDto)
                 .collect(Collectors.toList());
+    }
+
+    public Map<String, CarDto> entityToDtoMap(Map<String, Car> map) {
+        Map<String, CarDto> mappedMap = new HashMap<>();
+        map.forEach((s, car) -> mappedMap.put(s, this.entityToDto(car)));
+        return mappedMap;
     }
 }
