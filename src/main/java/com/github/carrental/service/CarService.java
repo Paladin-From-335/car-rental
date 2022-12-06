@@ -1,21 +1,21 @@
 package com.github.carrental.service;
 
 import com.github.carrental.model.dto.CarDto;
+import com.github.carrental.model.dto.UserRentDto;
 import java.util.List;
-import java.util.Map;
 
 public interface CarService {
 
-    void saveCar(CarDto dto);
+    CarDto saveCar(CarDto dto);
 
-    void deleteCar(String carRegNum);
+    void deleteCar(String carRegNumber);
 
-    void markUnavailable(String carRegNum);
+    void changeCarAvailability(Boolean isUnavailable, String carRegNum);
 
     List<CarDto> getAllCars();
 
     List<CarDto> getAvailable();
 
-    Map<String, CarDto> getAllRented();
+    List<UserRentDto> getAllRented();
 
 }

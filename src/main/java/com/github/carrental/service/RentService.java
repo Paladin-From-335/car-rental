@@ -4,7 +4,7 @@ import com.github.carrental.model.dto.RentDto;
 
 public interface RentService {
 
-    void toRent(RentDto dto);
+    RentDto toRent(RentDto dto);
 
-    void receiveCar(RentDto dto);
+    void receiveCar(String carRegNumber);
 }
