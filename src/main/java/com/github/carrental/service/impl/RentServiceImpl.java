@@ -12,7 +12,6 @@ import com.github.carrental.service.RentService;
 import com.github.carrental.util.Mapper;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -48,9 +47,9 @@ public class RentServiceImpl implements RentService {
                         car.get().getCarRegNumber()
                 );
             }
-        } catch (InvalidDataAccessResourceUsageException e) {
+        } catch (Exception e) {
             throw new NotExistException("Current car or user is not exist");
         }
-        return new Rent();
+        throw new NotExistException("Current car or user is not exist");
     }
 }
