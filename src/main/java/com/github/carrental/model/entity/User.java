@@ -13,18 +13,23 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_table")
+@Table(name = "users")
 @Entity
 public class User {
 
     @Id
+    @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
 
-    @Column(name = "name")
+    @Column(name = "username")
     private String name;
 
     @Column(name = "driver_license")
     private String driverLicense;
 
+    public User(String name, String driverLicense) {
+        this.name = name;
+        this.driverLicense = driverLicense;
+    }
 }

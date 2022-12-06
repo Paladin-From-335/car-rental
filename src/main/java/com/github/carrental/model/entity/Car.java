@@ -18,6 +18,7 @@ import lombok.NoArgsConstructor;
 public class Car {
 
     @Id
+    @Column(name = "car_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long carId;
 
@@ -26,5 +27,8 @@ public class Car {
 
     @Column(name = "car_brand")
     private String carBrand;
+
+    @Column(name = "tmp_unavailable")
+    private Boolean tmpUnavailable;
 
 }

@@ -3,6 +3,7 @@ package com.github.carrental.controller;
 import com.github.carrental.model.dto.UserDto;
 import com.github.carrental.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,7 +19,6 @@ public class UserController {
 
     @PostMapping("/register")
     private ResponseEntity<?> createUser(@RequestBody UserDto user) {
-        userService.saveUser(user);
-        return ResponseEntity.ok("SUCCESS");
+        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
     }
 }
