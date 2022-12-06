@@ -28,7 +28,7 @@ public interface CarRepo extends JpaRepository<Car, Long> {
 
     @Query(value = "SELECT us.username, car.* FROM rented ren " +
             "INNER JOIN car_table car on car.car_reg_number = ren.car_reg_number " +
-            "INNER JOIN users us on us.driver_license = ren.driver_license", nativeQuery = true)
+            "INNER JOIN user_table us on us.driver_license = ren.driver_license", nativeQuery = true)
     List<Map<String, Object>> getAllRented();
 
     @Modifying(clearAutomatically = true)

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepo extends JpaRepository<User, Long> {
 
-    @Query(value = "SELECT * FROM users WHERE driver_license=:license", nativeQuery = true)
+    @Query(value = "SELECT * FROM user_table WHERE driver_license=:license", nativeQuery = true)
     Optional<User> findByLicense(String license);
 }

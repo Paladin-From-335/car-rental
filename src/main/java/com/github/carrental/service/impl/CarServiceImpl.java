@@ -4,16 +4,13 @@ import com.github.carrental.exception.AlreadyExistException;
 import com.github.carrental.exception.CarInUseException;
 import com.github.carrental.exception.NotExistException;
 import com.github.carrental.model.dto.CarDto;
+import com.github.carrental.model.dto.UserRentDto;
 import com.github.carrental.model.entity.Car;
 import com.github.carrental.repo.CarRepo;
 import com.github.carrental.repo.RentRepo;
 import com.github.carrental.service.CarService;
 import com.github.carrental.util.Mapper;
-import java.util.Comparator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -67,15 +64,7 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public List<LinkedHashMap<String, Object>> getAllRented() {
-        return carRepo.getAllRented()
-                .stream().map(map -> map.entrySet()
-                        .stream().sorted(Map.Entry.comparingByKey(Comparator.reverseOrder()))
-                        .collect(Collectors.toMap(
-                                Map.Entry::getKey,
-                                Map.Entry::getValue,
-                                (oldValue, newValue) -> oldValue,
-                                LinkedHashMap::new))
-                ).collect(Collectors.toList());
+    public List<UserRentDto> getAllRented() {
+        return mapper.mapListToDtoList(carRepo.getAllRented());
     }
 }

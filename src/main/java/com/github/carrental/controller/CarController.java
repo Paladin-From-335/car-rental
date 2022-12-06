@@ -1,12 +1,14 @@
 package com.github.carrental.controller;
 
+import static com.github.carrental.controller.handler.ResponseHandler.composeResponse;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.carrental.model.dto.AvailCarDto;
 import com.github.carrental.model.dto.CarDto;
 import com.github.carrental.model.dto.RentDto;
+import com.github.carrental.model.dto.UserRentDto;
 import com.github.carrental.service.CarService;
 import com.github.carrental.service.RentService;
-import java.util.LinkedHashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,28 +31,40 @@ public class CarController {
 
     @PostMapping("/save")
     private ResponseEntity<?> saveCar(@RequestBody CarDto dto) {
-        return new ResponseEntity<>(carService.saveCar(dto), HttpStatus.OK);
+        return composeResponse(carService.saveCar(dto), HttpStatus.OK);
     }
 
     @GetMapping("/all-cars")
-    private List<CarDto> getAllCars() {
-        return carService.getAllCars();
+    private ResponseEntity<?> getAllCars() {
+        List<CarDto> cars = carService.getAllCars();
+        if (cars.isEmpty()) {
+            return composeResponse(HttpStatus.NO_CONTENT);
+        }
+        return ResponseEntity.ok(cars);
     }
 
     @GetMapping("/available-cars")
-    private List<CarDto> getAllAvailableCars() {
-        return carService.getAvailable();
+    private ResponseEntity<?> getAllAvailableCars() {
+        List<CarDto> cars = carService.getAvailable();
+        if (cars.isEmpty()) {
+            return composeResponse(HttpStatus.NO_CONTENT);
+        }
+        return ResponseEntity.ok(cars);
     }
 
     @GetMapping("/rented-cars")
-    private List<LinkedHashMap<String, Object>> getAllRentedCars() {
-        return carService.getAllRented();
+    private ResponseEntity<?> getAllRentedCars() {
+        List<UserRentDto> rentInfo = carService.getAllRented();
+        if (rentInfo.isEmpty()) {
+            return composeResponse(HttpStatus.NO_CONTENT);
+        }
+        return ResponseEntity.ok(rentInfo);
     }
 
     @DeleteMapping("/delete")
     private ResponseEntity<?> deleteCar(@RequestBody @JsonProperty("car_reg_number") String carRegNumber) {
         carService.deleteCar(carRegNumber);
-        return ResponseEntity.ok("SUCCESS");
+        return composeResponse(HttpStatus.OK);
     }
 
     @PutMapping("/change-availability")
@@ -59,18 +73,18 @@ public class CarController {
                 dto.getIsUnavailable(),
                 dto.getCarRegNumber()
         );
-        return ResponseEntity.ok("SUCCESS");
+        return composeResponse(HttpStatus.OK);
     }
 
     @PostMapping("/to-rent")
     private ResponseEntity<?> toRent(@RequestBody RentDto dto) {
-        return new ResponseEntity<>(rentService.toRent(dto), HttpStatus.OK);
+        return composeResponse(rentService.toRent(dto), HttpStatus.OK);
     }
 
     @PostMapping("/receive")
     private ResponseEntity<?> receiveCar(@RequestBody RentDto dto) {
         rentService.receiveCar(dto.getCarRegNumber());
-        return ResponseEntity.ok("SUCCESS");
+        return composeResponse(HttpStatus.OK);
     }
 
 }

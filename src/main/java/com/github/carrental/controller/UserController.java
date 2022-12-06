@@ -1,5 +1,7 @@
 package com.github.carrental.controller;
 
+import static com.github.carrental.controller.handler.ResponseHandler.composeResponse;
+
 import com.github.carrental.model.dto.UserDto;
 import com.github.carrental.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,6 @@ public class UserController {
 
     @PostMapping("/register")
     private ResponseEntity<?> createUser(@RequestBody UserDto user) {
-        return new ResponseEntity<>(userService.saveUser(user), HttpStatus.OK);
+        return composeResponse(userService.saveUser(user), HttpStatus.OK);
     }
 }

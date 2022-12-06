@@ -1,7 +1,7 @@
 package com.github.carrental.service;
 
 import com.github.carrental.model.dto.CarDto;
-import java.util.LinkedHashMap;
+import com.github.carrental.model.dto.UserRentDto;
 import java.util.List;
 
 public interface CarService {
@@ -16,6 +16,6 @@ public interface CarService {
 
     List<CarDto> getAvailable();
 
-    List<LinkedHashMap<String, Object>> getAllRented();
+    List<UserRentDto> getAllRented();
 
 }

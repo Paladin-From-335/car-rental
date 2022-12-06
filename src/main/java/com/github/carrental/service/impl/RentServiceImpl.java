@@ -12,6 +12,7 @@ import com.github.carrental.service.RentService;
 import com.github.carrental.util.Mapper;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -37,15 +38,19 @@ public class RentServiceImpl implements RentService {
         rentRepo.deleteByCarNumber(carRegNumber);
     }
 
-    private Rent checkUserAndCar(RentDto dto) throws NotExistException {
-        Optional<User> user = userRepo.findByLicense(dto.getDriverLicense());
-        Optional<Car> car = carRepo.findByCarRegNumber(dto.getCarRegNumber());
-        if (user.isPresent() && car.isPresent() && !car.get().getTmpUnavailable()) {
-            return new Rent(
-                    user.get().getDriverLicense(),
-                    car.get().getCarRegNumber()
-            );
+    private Rent checkUserAndCar(RentDto dto) {
+        try {
+            Optional<User> user = userRepo.findByLicense(dto.getDriverLicense());
+            Optional<Car> car = carRepo.findByCarRegNumber(dto.getCarRegNumber());
+            if (user.isPresent() && car.isPresent() && !car.get().getTmpUnavailable()) {
+                return new Rent(
+                        user.get().getDriverLicense(),
+                        car.get().getCarRegNumber()
+                );
+            }
+        } catch (InvalidDataAccessResourceUsageException e) {
+            throw new NotExistException("Current car or user is not exist");
         }
-        throw new NotExistException("Current car or user is not exist");
+        return new Rent();
     }
 }

@@ -11,5 +11,5 @@ public class UserRentDto {
 
     private String username;
 
-    private CarDto carDto;
+    private CarDto car;
 }
